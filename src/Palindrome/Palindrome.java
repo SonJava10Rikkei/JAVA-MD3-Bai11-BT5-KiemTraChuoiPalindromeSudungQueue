@@ -1,46 +1,33 @@
 package Palindrome;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
 
 public class Palindrome {
-    static Stack<String> strStack = new Stack<>();
-    static ArrayDeque<String> strQueue = new ArrayDeque<>();
-
-    public static void checkPalidrome(Scanner scanner) {
-        System.out.println("Nhập vào chuỗi ký tự: ");
-        String str = scanner.nextLine();
-        String[] strArray = str.split("");
-        System.out.println("After Split strArray: " + Arrays.toString(strArray));
-        putValueInStackAnhQueue(strArray);
-        boolean flag = checkMatchPalidrome(strArray);
-        if (flag)
-            System.out.println("Đây là chuỗi Palidrome !");
-        else
-            System.out.println("Đây không phải là chuỗi Palidrome !");
-    }
-
-    private static void putValueInStackAnhQueue(String[] strArray) {
-        for (int i = 0; i < strArray.length; i++) {
-            strStack.push(strArray[i]);
-            strQueue.add(strArray[i]);
-        }
-    }
-
-    private static boolean checkMatchPalidrome(String[] strArray) {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Nhập vào 1 chuỗi: ");
+        String stringInput = sc.nextLine();
         boolean flag = true;
-        for (int i = 0; i < strArray.length; i++) {
-            String stackCharacter = strStack.pop();
-            String queueCharacter = strQueue.poll();
-
-            boolean equalsCheck = stackCharacter.equalsIgnoreCase(queueCharacter);
-            if (!equalsCheck) {
+        Stack<String> stackString = new Stack<>();
+        Queue<String> queueString = new LinkedList<>();
+        String[] splitStringInput = stringInput.split("");
+        for (int i = 0; i < splitStringInput.length; i++) {
+            stackString.push(splitStringInput[i]);
+        }
+        for (int i = 0; i < splitStringInput.length; i++) {
+            queueString.add(splitStringInput[i]);
+        }
+        while (!stackString.isEmpty()) {
+            if (!stackString.pop().equalsIgnoreCase(queueString.poll())) {
+                System.out.println("Đây KHÔNG phải là chuỗi Palidrome.");
                 flag = false;
                 break;
             }
         }
-        return flag;
+        if (flag)
+            System.out.println("Đây là chuỗi Palidrome.");
     }
 }
